@@ -1,35 +1,31 @@
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import Author, Category, Message, Service, Testimony, Work
 
 
 def index(request):
     """Главная страница"""
-    categories = Category.objects.all()
-    works = Work.objects.all()
-    services = Service.objects.all()
-    testimonies = Testimony.objects.all()
-
     context = {
-        "categories": categories,
-        "works": works,
-        "services": services,
-        "testimonies": testimonies,
+        "categories": Category.objects.all(),
+        "works": Work.objects.all(),
+        "services": Service.objects.all(),
+        "testimonies": Testimony.objects.all(),
     }
 
     return render(request, "index.html", context)
 
 
 def about(request):
-    """Страница о нас"""
-    author = Author.objects.get()
+    """Страница с информацией об авторе"""
+    author = Author.objects.first()
     return render(request, "about.html", {"author": author})
 
 
 def work_detail(request, slug):
-    """Страница с детальной информацией о работе"""
-    work = get_object_or_404(Work, slug=slug)
+    """Страница с детальной информацией о работе"""
+    work = Work.objects.get(slug=slug)
     testimonies = Testimony.objects.all()
     context = {
         "work": work,
@@ -38,17 +34,15 @@ def work_detail(request, slug):
     return render(request, "work_detail.html", context)
 
 
+@require_POST
 def contact(request):
     """Страница с формой обратной связи"""
-    if request.method == "POST":
-        msg = Message(
-            name=request.POST["name"],
-            email=request.POST["email"],
-            subject=request.POST["subject"],
-            message=request.POST["message"],
-        )
-        msg.save()
-        messages.success(request, "Сообщение отправлено!")
-        return redirect("contact")
-
-    return render(request, "contact.html")
+    msg = Message(
+        name=request.POST["name"],
+        email=request.POST["email"],
+        subject=request.POST["subject"],
+        message=request.POST["message"],
+    )
+    msg.save()
+    messages.success(request, "Сообщение отправлено!")
+    return redirect("contact")

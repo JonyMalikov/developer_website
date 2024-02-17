@@ -12,6 +12,12 @@ from .models import (
 )
 
 
+class WorkAdmin(admin.ModelAdmin):
+    """Вывод работ в админке"""
+
+    prepopulated_fields = {"slug": ("title",)}
+
+
 class ItemInline(admin.TabularInline):
     """Вывод инструментов в админке"""
 
