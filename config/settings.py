@@ -14,7 +14,7 @@ DEBUG = os.getenv("DEBUG")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "username.pythonanywhere.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "EvgeniyMalikov.pythonanywhere.com"]
 
 
 INSTALLED_APPS = [
