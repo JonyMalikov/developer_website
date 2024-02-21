@@ -12,9 +12,11 @@ from .models import (
 )
 
 
+@admin.register(Work)
 class WorkAdmin(admin.ModelAdmin):
     """Вывод работ в админке"""
 
+    list_display = ["title", "slug", "category"]
     prepopulated_fields = {"slug": ("title",)}
 
 
@@ -35,6 +37,5 @@ admin.site.register(Testimony)
 admin.site.register(Skill)
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(Author)
-admin.site.register(Work)
 admin.site.register(Item)
 admin.site.register(Message)
