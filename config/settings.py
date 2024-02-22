@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.contrib import messages
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -107,10 +108,10 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# MESSAGE_TAGS = {
-#     messages.DEBUG: "alert-secondary",
-#     messages.INFO: "alert-info",
-#     messages.SUCCESS: "alert-success",
-#     messages.WARNING: "alert-warning",
-#     messages.ERROR: "alert-danger",
-# }
+MESSAGE_TAGS = {
+    messages.DEBUG: "вторичное оповещение",
+    messages.INFO: "информационное оповещение",
+    messages.SUCCESS: "успешное оповещение",
+    messages.WARNING: "предупреждение",
+    messages.ERROR: "ошибка",
+}
