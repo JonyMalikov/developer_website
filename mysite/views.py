@@ -34,31 +34,27 @@ def work_detail(request, slug):
     return render(request, "work_detail.html", context)
 
 
-# @require_POST
-# def contact(request):
-#     """Страница с формой обратной связи"""
-#     msg = Message(
-#         name=request.POST["name"],
-#         email=request.POST["email"],
-#         subject=request.POST["subject"],
-#         message=request.POST["message"],
-#     )
-#     msg.save()
-#     messages.success(request, "Сообщение отправлено!")
-#     return redirect("contact")
 @require_http_methods(["GET", "POST"])
 def contact(request):
     """Страница с формой обратной связи"""
     if request.method == "POST":
-        msg = Message(
-            name=request.POST["name"],
-            email=request.POST["email"],
-            subject=request.POST["subject"],
-            message=request.POST["message"],
-        )
-        msg.save()
-        messages.success(request, "Сообщение отправлено!")
-        return redirect("contact")
+        if all(
+            param in request.POST
+            for param in ["name", "email", "subject", "message"]
+        ):
+            msg = Message(
+                name=request.POST["name"],
+                email=request.POST["email"],
+                subject=request.POST["subject"],
+                message=request.POST["message"],
+            )
+            msg.save()
+            messages.success(request, "Сообщение отправлено!")
+            return redirect("contact")
+        else:
+            messages.error(
+                request, "Не все необходимые параметры были отправлены"
+            )
+            return redirect("contact")
     else:
-
         return render(request, "contact.html")
