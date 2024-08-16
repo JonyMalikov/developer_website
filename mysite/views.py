@@ -19,7 +19,7 @@ def index(request):
 
 def about(request):
     """Страница с информацией об авторе"""
-    author = Author.objects.first()
+    author = Author.objects.get()
     return render(request, "about.html", {"author": author})
 
 
